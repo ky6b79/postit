@@ -1,22 +1,23 @@
-<% if @post.errors.any? %>
-  <div class="alert alert-error">
-    <h4>Post form has errors:</h4>
-    <ul>
-      <% @post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+<%= render 'shared/errors', obj: @post %>
+<div class="well">
+  <%= form_for @post do |f| %>
+    <div class="control-group">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="control-group">
+      <%= f.label :url %>
+      <%= f.text_field :url %>
+    </div>
+    <div class="control-group">
+      <%= f.label :description %>
+      <%= f.text_area :description %>
+    </div>
+    <div class="control-group">
+      <%= f.collection_check_boxes :category_ids, Category.all, :id, :name do |category_box| %>
+        <%= category_box.label(class: 'checkbox inline') { category_box.check_box(class: 'checkbox') + category_box.text } %>
       <% end %>
-    </ul>
-  </div>
-<% end %>
-<%= form_for @post do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <br />
-  <%= f.label :url %>
-  <%= f.text_field :url %>
-  <br />
-  <%= f.label :description %>
-  <%= f.text_area :description %>
-  <br />
-  <%= f.submit %>
-<% end %>
+    </div>
+    <%= f.submit(@post.new_record? ? "Create a post" : "Update post", class: 'btn btn-primary') %>
+  <% end %>
+</div>
