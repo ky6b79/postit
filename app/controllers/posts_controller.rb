@@ -5,10 +5,22 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.all.sort_by{ |post| post.votes_total }.reverse
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @posts }
+      format.xml { render xml: @posts }
+    end
   end
 
   def show
     @comment = Comment.new
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @post }
+      format.xml { render xml: @post }
+    end
   end
 
   def new
